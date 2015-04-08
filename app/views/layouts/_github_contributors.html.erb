@@ -1,9 +1,11 @@
 <div class ="contributors">
   <ul>
+    <% list = [] %>
     <% repos.each do |contributors| %>
-      <% contributors.each do |contributor| %>
-        <%= image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar" %>
-      <% end %>
+      <% contributors.each {|contributor| list << contributor } %>
     <% end %>
-  </ul>
+    <% list.uniq {|x| x[:login] }.sort_by{ |h| h[:contributions]}.each do |contributor| %>
+      <%= image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar" %>
+    <% end %>
+ </ul>
 </div>

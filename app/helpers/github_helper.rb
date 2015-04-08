@@ -1,19 +1,17 @@
 module GithubHelper
   
   def exercism_contributors
-    github = Github.new do |config|
-      config.client_id = ENV["GH_BASIC_CLIENT_ID"]
-      config.client_secret = ENV["GH_BASIC_SECRET_ID"]
-      config.stack do |builder|
-        builder.use Faraday::HttpCache, store: Rails.cache
-        builder.adapter Faraday.default_adapter
+    Rails.cache.fetch(:contributors, expires_in: 1.hour) do
+      github = Github.new do |config|
+        config.client_id = ENV["GH_BASIC_CLIENT_ID"]
+        config.client_secret = ENV["GH_BASIC_SECRET_ID"]
       end
-    end
-    exercism_repos = github.repos.list(user: "exercism").to_a 
-    exercism_repos.delete_if {|x| x[:size] == 0}
-    exercism_repos.map do |r|
-      github.repos.list_contributors('exercism',r.name).map do |c|
-        c
+      exercism_repos = github.repos.list(user: "exercism").to_a 
+      exercism_repos.delete_if {|x| x[:size] == 0}
+      exercism_repos.map do |r|
+        github.repos.list_contributors('exercism',r.name).map do |c|
+          c
+        end
       end
     end
   end
