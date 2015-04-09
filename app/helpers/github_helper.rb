@@ -16,6 +16,21 @@ module GithubHelper
     end
   end
   
+  def exercism_something(hmm)
+   contributors = exercism_contributors
+   contributors.flatten.select {|x| x[:login] == hmm}
+  end
+
+  def exercism_repos
+    Rails.cache.fetch(:repos, expires_in: 1.hour) do
+      github = Github.new do |config|
+        config.client_id = ENV["GH_BASIC_CLIENT_ID"]
+        config.client_secret = ENV["GH_BASIC_SECRET_ID"]
+      end
+      github.repos.list(user: "exercism").to_a 
+    end
+  end
+
   def render_contributors
     ec = exercism_contributors
     render :partial => '/layouts/github_contributors', :locals => {:repos  => ec}

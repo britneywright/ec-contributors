@@ -4,8 +4,9 @@
     <% repos.each do |contributors| %>
       <% contributors.each {|contributor| list << contributor } %>
     <% end %>
-    <% list.uniq {|x| x[:login] }.sort_by{ |h| h[:contributions]}.each do |contributor| %>
-      <%= image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar" %>
+      <% list.uniq {|x| x[:login] }.sort_by{ |h| h[:contributions]}.each do |contributor| %>
+        <%= link_to (image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar"), "contributors/#{contributor.login}" %>
     <% end %>
  </ul>
 </div>
+<%= "#{list.length} total contributors" %>
