@@ -8,17 +8,17 @@ module GithubHelper
       end
       exercism_repos = github.repos.list(user: "exercism").to_a 
       exercism_repos.delete_if {|x| x[:size] == 0}
-      exercism_repos.map do |r|
+      exercism_repos.each do |r|
         github.repos.list_contributors('exercism',r.name).map do |c|
-          c
-        end
+          Hash["repo",r,"contributor",c]
+        end 
       end
     end
   end
   
   def exercism_something(hmm)
    contributors = exercism_contributors
-   contributors.flatten.select {|x| x[:login] == hmm}
+   contributors.flatten.select {|x| x["contributor"].login == hmm}
   end
 
   def exercism_repos

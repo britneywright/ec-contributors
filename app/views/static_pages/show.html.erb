@@ -1,4 +1,10 @@
-<h2><%= exercism_something(params['login']).first.login %></h2>
+<h2><%= exercism_something(params[:login]).first["contributor"].login %></h2>
 <br />
-<%= exercism_something(params['login']).map {|x| x[:contributions] }.inject {|sum,number| sum + number }.to_s + " contributions"%>
-<br />
+<%= exercism_something(params['login']).map {|x| x["contributor"].contributions }.inject {|sum,number| sum + number }.to_s + " contributions"%>
+<br /><br />
+
+<ul>
+  <% exercism_something(params[:login]).each do |repo| %>
+    <li><%= repo["repo"].name %></li>
+  <% end %>
+</ul>
