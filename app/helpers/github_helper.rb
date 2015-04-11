@@ -16,20 +16,21 @@ module GithubHelper
     end
   end
   
-  def individual_contributor(name)
-   exercism_contributors.flatten.select{|x| x["contributor"].login == name}
-  end
-
-  def unique_contributor(name)
-   individual_contributor(name).first["contributor"] 
-  end
-
-  def unique_contributors
+  def contributors_by_name
     exercism_contributors.flatten.map{|contributor| contributor["contributor"]}.uniq{|x| x[:login]}
   end
 
+  def contributor_instances(name)
+    exercism_contributors.flatten.select{|x| x["contributor"].login == name}
+  end
+
+  def first_contributor_instance(name)
+    contributor_instances(name).first["contributor"] 
+  end
+
+  
   def render_contributors
-    ec = unique_contributors 
+    ec = contributors_by_name 
     render :partial => '/layouts/github_contributors', :locals => {:contributors_list => ec}
   end 
 

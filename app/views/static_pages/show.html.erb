@@ -1,16 +1,16 @@
 <div class="container">
   <section class="page-header">
     <h2>
-      <%= image_tag unique_contributor(params[:login]).avatar_url, alt: "#{unique_contributor(params[:login]).login}", class: "avatar" %>
-      <%= unique_contributor(params[:login]).login %>
+      <%= image_tag first_contributor_instance(params[:login]).avatar_url, alt: "#{first_contributor_instance(params[:login]).login}", class: "avatar" %>
+      <%= first_contributor_instance(params[:login]).login %>
     </h2>
   </section>
   <section class="main">
-    <%= individual_contributor(params['login']).map {|x| x["contributor"].contributions }.inject {|sum,number| sum + number }.to_s + " contributions"%>
+    <%= contributor_instances(params['login']).map {|x| x["contributor"].contributions }.inject {|sum,number| sum + number }.to_s + " contributions"%>
     <br /><br />
     <h3>Repos</h3>
     <ul>
-      <% individual_contributor(params[:login]).each do |repo| %>
+      <% contributor_instances(params[:login]).each do |repo| %>
         <li><%= repo["repo"].name %></li>
       <% end %>
     </ul>
