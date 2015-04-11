@@ -1,12 +1,7 @@
-<div class ="contributors">
-  <ul>
-    <% list = [] %>
-    <% repos.each do |contributors| %>
-      <% contributors.each {|contributor| list << contributor } %>
-    <% end %>
-      <% list.uniq {|x| x[:login] }.sort_by{ |h| h[:contributions]}.each do |contributor| %>
-        <%= link_to (image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar"), "contributors/#{contributor.login}" %>
-    <% end %>
- </ul>
+<%= "#{contributors_list.length} contributors" %>
+<br><br>
+<div class="contributors">
+  <% contributors_list.each do |contributor| %>
+    <%= link_to (image_tag contributor.avatar_url, class: "avatar", alt: "#{contributor.login} avatar"), "contributors/#{contributor.login}" %>
+  <% end %>
 </div>
-<%= "#{list.length} total contributors" %>
