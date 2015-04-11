@@ -1,2 +1,16 @@
-<h1>Exercism Contributors</h1>
-<%= render_contributors %>
+<div id="home">
+  <section class="main">
+    <div class="home-top">
+      <div class="container">
+        <section class="container-centered">
+          <h2 class="home-top-header"><%= "#{unique_contributors.length} helping hands" %></h2>
+        </section>
+      </div>
+    </div>
+  </section>
+  <div class="container">
+    <section class="home-contributors">
+      <%= render_contributors %>
+    </section>
+  </div>
+</div>

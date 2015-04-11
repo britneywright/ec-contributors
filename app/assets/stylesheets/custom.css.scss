@@ -1,6 +1,8 @@
 @import "bootstrap";
 
 body {
+  margin: 0;
+  padding-top: 50px;
   font-family: "Helvetical Neue", Helvetica,Arial,sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
@@ -18,8 +20,32 @@ h2 {
   font-size: 30px;
 }
 
+.home-top {
+  background: #D81D4E;
+  box-shadow: 0 10px 0 #f1f1f1;
+  min-height: 300px;
+  min-width: 100%;
+  padding: 40px 0;
+}
+
+.home-top-header {
+  color: #fff;
+  letter-spacing: -0.05em;
+  margin-bottom: 0px;
+}
+
+.container-centered {
+  text-align: center;
+}
+
+.home-contributors {
+  padding-top: 2em;
+  padding-bottom: 3em;
+}
+
 .avatar {
   max-width: 75px;
   height: auto;
   border-radius: 50%;
+  margin: 5px 3px;
 }

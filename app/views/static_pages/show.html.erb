@@ -1,10 +1,18 @@
-<h2><%= individual_contributor(params[:login]).first["contributor"].login %></h2>
-<br />
-<%= individual_contributor(params['login']).map {|x| x["contributor"].contributions }.inject {|sum,number| sum + number }.to_s + " contributions"%>
-<br /><br />
-<h3>Repos</h3>
-<ul>
-  <% individual_contributor(params[:login]).each do |repo| %>
-    <li><%= repo["repo"].name %></li>
-  <% end %>
-</ul>
+<div class="container">
+  <section class="page-header">
+    <h2>
+      <%= image_tag unique_contributor(params[:login]).avatar_url, alt: "#{unique_contributor(params[:login]).login}", class: "avatar" %>
+      <%= unique_contributor(params[:login]).login %>
+    </h2>
+  </section>
+  <section class="main">
+    <%= individual_contributor(params['login']).map {|x| x["contributor"].contributions }.inject {|sum,number| sum + number }.to_s + " contributions"%>
+    <br /><br />
+    <h3>Repos</h3>
+    <ul>
+      <% individual_contributor(params[:login]).each do |repo| %>
+        <li><%= repo["repo"].name %></li>
+      <% end %>
+    </ul>
+  </section>
+</div>
