@@ -6,12 +6,21 @@ module GithubHelper
         config.client_id = ENV["GH_BASIC_CLIENT_ID"]
         config.client_secret = ENV["GH_BASIC_SECRET_ID"]
       end
-      exercism_repos = github.repos.list(user: "exercism").to_a 
-      exercism_repos.delete_if {|x| x[:size] == 0}
+      exercism_repos = github.repos.list(user: "exercism").to_a.delete_if {|x| x[:size] == 0}
       exercism_repos.map do |r|
-        github.repos.list_contributors('exercism',r.name).map do |c|
-          Hash["repo",r,"contributor",c]
-        end 
+        1.upto(Float::INFINITY).with_object([]) do |pagenum, contributors|
+          page = github.repos.list_contributors('exercism', r.name, page: pagenum)
+          page.each { |c| contributors << Hash["repo", r, "contributor", c] }
+          link = page.response.headers['link']
+          last_pagenum = if link
+            last_link = link.split(',').grep(/rel="last"/).first
+            last_link ||= "page=#{pagenum}"
+            last_link[/page=(\d+)/, 1].to_i
+          else
+            pagenum
+          end
+          break contributors if pagenum == last_pagenum
+        end
       end
     end
   end
